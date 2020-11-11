@@ -1,0 +1,30 @@
+{
+    "name": "NodeProj",
+    "version": "1.0.0",
+    "main": "/src/server.js",
+    "repository": "https://github.com/VinnyBittencourt/NodeProj.git",
+    "author": "Vinícius de Ataídes Bittencourt <vinicius.bittencourt@am4.com.br>",
+    "license": "MIT",
+    "scripts": {
+        "build": "tsc",
+        "dev:server": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
+        "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
+    },
+    "dependencies": {
+        "@types/bcryptjs": "^2.4.2",
+        "@types/express": "^4.17.7",
+        "bcryptjs": "^2.4.3",
+        "date-fns": "^2.16.1",
+        "express": "^4.17.1",
+        "jsonwebtoken": "^8.5.1",
+        "multer": "^1.4.2",
+        "pg": "^8.3.2",
+        "typeorm": "^0.2.25"
+    },
+    "devDependencies": {
+        "@types/jsonwebtoken": "^8.5.0",
+        "@types/multer": "^1.4.4",
+        "ts-node-dev": "^1.0.0-pre.60",
+        "typescript": "^4.0.2"
+    }
+}
