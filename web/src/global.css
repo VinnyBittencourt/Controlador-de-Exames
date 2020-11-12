@@ -1,0 +1,28 @@
+:root {
+    --main-color: #9f74f6;
+    --main-color-light: #b8a2e6;
+    --red-color: #f34d64;
+    --gray-color: #3a3a41;
+    --gray-color-light: #6b6b77;
+    --light-bg: #faf8ff;
+    --black: #000000;
+    --white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+
+.center {
+    width: 94%;
+    max-width: 1140px;
+    margin: 0 auto;
+}
+
+html,
+body {
+    font-family: "Lato", sans-serif;
+}
