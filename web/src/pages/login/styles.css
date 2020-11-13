@@ -19,7 +19,7 @@
 .login-box img {
     margin: 0 auto;
     display: block;
-    margin-bottom: 55px;
+    margin-bottom: 45px;
 }
 
 .login-box h2 {
@@ -78,4 +78,27 @@
     display: table;
     margin: 0 auto;
     font-size: 12px;
+}
+
+.regi {
+    background: url("../../assets/RegisterWall.png") center center/cover;
+
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 126px;
+}
+
+.linkb-regi {
+    display: flex;
+    margin: 0 auto;
+}
+
+.link-regi {
+    display: flex !important;
+    align-items: center;
+    text-decoration: none;
+}
+
+.link-regi svg {
+    margin-right: 5px;
 }

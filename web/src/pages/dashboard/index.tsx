@@ -6,143 +6,151 @@ import {
     FiThumbsDown,
     FiThumbsUp,
     FiTrash2,
+    FiLogOut,
+    FiPlus,
 } from "react-icons/fi";
 
 import api from "../../services/api";
 
+import logo from "../../assets/logo.png";
+import svgAccount from "../../assets/account.png";
+import svgText from "../../assets/text-w.png";
+import svgfiles from "../../assets/files.png";
+import svgGroup from "../../assets/group.png";
+
 import "./styles.css";
 import swal from "sweetalert";
 
-interface evento {
-    name: string;
-    id: string;
-    criador_evento_id: string;
-    place: string;
-    likes: number;
-    dislikes: number;
-    picture_used: string;
-    bio: string;
-    created_at: string;
-    updated_at: string;
-}
+// interface evento {
+//     name: string;
+//     id: string;
+//     criador_evento_id: string;
+//     place: string;
+//     likes: number;
+//     dislikes: number;
+//     picture_used: string;
+//     bio: string;
+//     created_at: string;
+//     updated_at: string;
+// }
 
 const Dashboard: React.FC = () => {
-    const [eventos, setEventos] = useState<evento[]>([]);
+    // const [eventos, setEventos] = useState<evento[]>([]);
 
     const history = useHistory();
-    const userJWT = localStorage.getItem("userJWT");
+    // const userJWT = localStorage.getItem("userJWT");
 
-    useEffect(() => {
-        async function loadData(): Promise<void> {
-            const userJWT = await localStorage.getItem("userJWT");
-            const response = await api.get("/eventos", {
-                headers: {
-                    Authorization: `Bearer ${userJWT}`,
-                },
-            });
-            setEventos(response.data);
-        }
-        loadData();
-    }, []);
+    // useEffect(() => {
+    //     async function loadData(): Promise<void> {
+    //         const userJWT = await localStorage.getItem("userJWT");
+    //         const response = await api.get("/eventos", {
+    //             headers: {
+    //                 Authorization: `Bearer ${userJWT}`,
+    //             },
+    //         });
+    //         setEventos(response.data);
+    //     }
+    //     loadData();
+    // }, []);
 
-    useEffect(() => {
-        async function loadData(): Promise<void> {
-            const userJWT = await localStorage.getItem("userJWT");
-            const response = await api.get("/eventos", {
-                headers: {
-                    Authorization: `Bearer ${userJWT}`,
-                },
-            });
-            setEventos(response.data);
-        }
-        loadData();
-    }, [eventos]);
+    // useEffect(() => {
+    //     async function loadData(): Promise<void> {
+    //         const userJWT = await localStorage.getItem("userJWT");
+    //         const response = await api.get("/eventos", {
+    //             headers: {
+    //                 Authorization: `Bearer ${userJWT}`,
+    //             },
+    //         });
+    //         setEventos(response.data);
+    //     }
+    //     loadData();
+    // }, [eventos]);
 
-    async function handleDeleteEvent(id: string, criador: any) {
-        try {
-            const user = localStorage.getItem("IdUser");
-            console.log("user", user);
-            console.log(criador);
-            if (user == criador) {
-                // const config = {
-                //     data: {
-                //         usuario_logged: criador,
-                //     },
-                // };
+    // async function handleDeleteEvent(id: string, criador: any) {
+    //     try {
+    //         const user = localStorage.getItem("IdUser");
+    //         console.log("user", user);
+    //         console.log(criador);
+    //         if (user == criador) {
+    //             // const config = {
+    //             //     data: {
+    //             //         usuario_logged: criador,
+    //             //     },
+    //             // };
 
-                const config = {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${userJWT}`,
-                    },
-                };
+    //             const config = {
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                     Authorization: `Bearer ${userJWT}`,
+    //                 },
+    //             };
 
-                const usuario_logged = criador;
-                console.log(config);
-                const respoon = await api.delete(`/eventos/${id}`, config);
-                setEventos(eventos.filter((even) => even.id !== id));
-            }
+    //             const usuario_logged = criador;
+    //             console.log(config);
+    //             const respoon = await api.delete(`/eventos/${id}`, config);
+    //             setEventos(eventos.filter((even) => even.id !== id));
+    //         }
 
-            if (user != criador) {
-                swal(
-                    "Ops!",
-                    "Only the creator of the event can delete it",
-                    "error"
-                );
-            }
-        } catch (err) {
-            alert("Erro ao deletar o evento");
-            console.log(err);
-        }
-    }
+    //         if (user != criador) {
+    //             swal(
+    //                 "Ops!",
+    //                 "Only the creator of the event can delete it",
+    //                 "error"
+    //             );
+    //         }
+    //     } catch (err) {
+    //         alert("Erro ao deletar o evento");
+    //         console.log(err);
+    //     }
+    // }
 
-    async function handleLike(evento: string) {
-        // e.preventDefault();
+    // async function handleLike(evento: string) {
+    //     // e.preventDefault();
 
-        const evento_id = evento;
-        const usuario_id = localStorage.getItem("IdUser");
+    //     const evento_id = evento;
+    //     const usuario_id = localStorage.getItem("IdUser");
 
-        const data = {
-            evento_id,
-            usuario_id,
-        };
+    //     const data = {
+    //         evento_id,
+    //         usuario_id,
+    //     };
 
-        try {
-            console.log(data);
-            const respon = await api.post("/likes", data, {
-                headers: {
-                    Authorization: `Bearer ${userJWT}`,
-                },
-            });
-        } catch (error) {
-            console.log(error);
-            swal("Ops!", "Something went wrong", "error");
-        }
-    }
+    //     try {
+    //         console.log(data);
+    //         const respon = await api.post("/likes", data, {
+    //             headers: {
+    //                 Authorization: `Bearer ${userJWT}`,
+    //             },
+    //         });
+    //     } catch (error) {
+    //         console.log(error);
+    //         swal("Ops!", "Something went wrong", "error");
+    //     }
+    // }
 
-    async function handleDislike(evento: string) {
-        // e.preventDefault();
+    // async function handleDislike(evento: string) {
+    //     // e.preventDefault();
 
-        const evento_id = evento;
-        const usuario_id = localStorage.getItem("IdUser");
+    //     const evento_id = evento;
+    //     const usuario_id = localStorage.getItem("IdUser");
 
-        const data = {
-            evento_id,
-            usuario_id,
-        };
+    //     const data = {
+    //         evento_id,
+    //         usuario_id,
+    //     };
 
-        try {
-            console.log(data);
-            const respon = await api.post("/dislikes", data, {
-                headers: {
-                    Authorization: `Bearer ${userJWT}`,
-                },
-            });
-        } catch (error) {
-            console.log(error);
-            swal("Ops!", "Something went wrong", "error");
-        }
-    }
+    //     try {
+    //         console.log(data);
+    //         const respon = await api.post("/dislikes", data, {
+    //             headers: {
+    //                 Authorization: `Bearer ${userJWT}`,
+    //             },
+    //         });
+    //     } catch (error) {
+    //         console.log(error);
+    //         swal("Ops!", "Something went wrong", "error");
+    //     }
+    // }
 
     function handleLogout() {
         localStorage.clear();
@@ -150,60 +158,99 @@ const Dashboard: React.FC = () => {
     }
 
     return (
-        <div className="center dashboard_container">
-            <header>
-                <h1>All Events</h1>
-                <div className="right_header">
-                    <Link className="Link_event" to="/newevent">
-                        New event
+        <div className="container-dashboard">
+            <div className="sidebar">
+                <img src={logo} alt="logo" className="logo-side" />
+                <div className="side-list">
+                    <Link to="/dashboard" className="side-active">
+                        <img src={svgText} alt="icon"></img>Dashboard
                     </Link>
-                    <button className="quit" onClick={handleLogout}>
-                        <FiPower size={18} color="#6A2BB4"></FiPower>
-                    </button>
+                    <Link to="/dashboard">
+                        <img src={svgGroup} alt="icon"></img>Funcionários
+                    </Link>
+                    <Link to="/dashboard">
+                        <img src={svgfiles} alt="icon"></img>Exames
+                    </Link>
+                    <Link to="/dashboard">
+                        <img src={svgAccount} alt="icon"></img>Conta
+                    </Link>
                 </div>
-            </header>
-            <div className="card_container">
-                {eventos
-                    .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
-                    .map((evento) => (
-                        <div className="card" key={evento.id}>
-                            <img src="" alt={evento.name} />
-                            <h2>{evento.name}</h2>
-                            <p className="card_text">{evento.bio}</p>
-                            <div className="box-card">
-                                <FiMapPin></FiMapPin>
-                                <p>{evento.place}</p>
-                            </div>
-                            <div className="group-likes">
-                                <button
-                                    className="like"
-                                    onClick={() => handleLike(evento.id)}
-                                >
-                                    <FiThumbsUp></FiThumbsUp> {evento.likes}{" "}
-                                    Likes
-                                </button>
-                                <button
-                                    className="dislike"
-                                    onClick={() => handleDislike(evento.id)}
-                                >
-                                    <FiThumbsDown></FiThumbsDown>{" "}
-                                    {evento.dislikes} Dislikes
-                                </button>
-                            </div>
-                            <button
-                                className="trash-ico"
-                                type="button"
-                                onClick={() =>
-                                    handleDeleteEvent(
-                                        evento.id,
-                                        evento.criador_evento_id
-                                    )
-                                }
-                            >
-                                <FiTrash2 size={15}></FiTrash2>
-                            </button>
+                <Link to="/" onClick={handleLogout} className="logout-side">
+                    <FiLogOut></FiLogOut> Deslogar
+                </Link>
+            </div>
+            <div className="main-section">
+                <header className="header">
+                    <div className="group-title">
+                        <h2>Dashboard</h2>
+                        <p>Exames para vencer</p>
+                    </div>
+                    <button className="btn-primary">
+                        <FiPlus></FiPlus>Novo Exame
+                    </button>
+                </header>
+                {/* <div className="list-container">
+                    <div className="list-tit">
+                        <p>ID do Exame</p>
+                        <p>Nome do Funcionário</p>
+                        <p>Tipo do Exame</p>
+                        <p>Data do Exame</p>
+                        <p>Vencimento</p>
+                    </div>
+                    <div className="list-conteudo">
+                        <div className="list-item">
+                            <p>0001</p>
+                            <p>Vinicius</p>
+                            <p>Tipo Sanguineo</p>
+                            <p>11/05/2020</p>
+                            <p>11/12/2020</p>
                         </div>
-                    ))}
+                        <div className="list-item">
+                            <p>0001</p>
+                            <p>Vinicius</p>
+                            <p>Tipo Sanguineo</p>
+                            <p>11/05/2020</p>
+                            <p>11/12/2020</p>
+                        </div>
+                    </div>
+                </div> */}
+                <table className="tb-container">
+                    <tr className="tb-tit">
+                        <th>ID do Exame</th>
+                        <th>Nome do Funcionário</th>
+                        <th>Tipo do Exame</th>
+                        <th>Data do Exame</th>
+                        <th>Vencimento</th>
+                    </tr>
+                    <tr className="tb-item tb-first">
+                        <td>0001</td>
+                        <td>Vinicius</td>
+                        <td>Sangue</td>
+                        <td>11/05/2020</td>
+                        <td>11/12/2020</td>
+                    </tr>
+                    <tr className="tb-item">
+                        <td>0001</td>
+                        <td>Vinicius</td>
+                        <td>Sangue</td>
+                        <td>11/05/2020</td>
+                        <td>11/12/2020</td>
+                    </tr>
+                    <tr className="tb-item">
+                        <td>0001</td>
+                        <td>Vinicius</td>
+                        <td>Sangue</td>
+                        <td>11/05/2020</td>
+                        <td>11/12/2020</td>
+                    </tr>
+                    <tr className="tb-item">
+                        <td>0001</td>
+                        <td>Vinicius</td>
+                        <td>Sangue</td>
+                        <td>11/05/2020</td>
+                        <td>11/12/2020</td>
+                    </tr>
+                </table>
             </div>
         </div>
     );
