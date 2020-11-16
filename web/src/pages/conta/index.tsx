@@ -10,15 +10,17 @@ import {
     FiLogOut,
     FiPlus,
     FiX,
+    FiEdit,
 } from "react-icons/fi";
 
 import api from "../../services/api";
 
 import logo from "../../assets/logo.png";
-import svgAccount from "../../assets/account.png";
-import svgText from "../../assets/text-w.png";
+import svgAccount from "../../assets/account-w.png";
+import svgText from "../../assets/text.png";
 import svgfiles from "../../assets/files.png";
 import svgGroup from "../../assets/group.png";
+import profilePic from "../../assets/profille.png";
 
 import "./styles.css";
 import swal from "sweetalert";
@@ -194,7 +196,7 @@ const Dashboard: React.FC = () => {
             <div className="sidebar">
                 <img src={logo} alt="logo" className="logo-side" />
                 <div className="side-list">
-                    <Link to="/dashboard" className="side-active">
+                    <Link to="/dashboard">
                         <img src={svgText} alt="icon"></img>Dashboard
                     </Link>
                     <Link to="/funcionarios">
@@ -203,7 +205,7 @@ const Dashboard: React.FC = () => {
                     <Link to="/exames">
                         <img src={svgfiles} alt="icon"></img>Exames
                     </Link>
-                    <Link to="/conta">
+                    <Link to="/conta" className="side-active">
                         <img src={svgAccount} alt="icon"></img>Conta
                     </Link>
                 </div>
@@ -214,102 +216,26 @@ const Dashboard: React.FC = () => {
             <div className="main-section">
                 <header className="header">
                     <div className="group-title">
-                        <h2>Dashboard</h2>
-                        <p>Exames para vencer</p>
+                        <h2>Conta</h2>
+                        <p>Suas informações</p>
                     </div>
-                    <button className="btn-primary" onClick={openModal}>
-                        <FiPlus></FiPlus>Novo Exame
-                    </button>
                 </header>
-                <Modal
-                    isOpen={modalIsOpen}
-                    // onAfterOpen={afterOpenModal}
-                    onRequestClose={closeModal}
-                    contentLabel="Example Modal"
-                    className="modal-container"
-                >
-                    <div className="modal">
-                        <h2>Resultado</h2>
-                        <p className="text-modal">
-                            O preço de venda do produto/serviço informado é de:
-                        </p>
-                        <p className="answer-modal">R$</p>
-                        {/* <p className="text-modal">Sendo a porcentagem de:</p> */}
-                        {/* <p className="answer-modal">{margemPorcentagem}%</p> */}
 
-                        <button onClick={closeModal} className="btn-main">
-                            Novo Produto
-                        </button>
-                        <button
-                            onClick={closeModal}
-                            className="btn-close-modal"
-                        >
-                            <FiX size={18}></FiX>
-                        </button>
+                <div className="body-conta">
+                    <div className="left-b">
+                        <p>
+                            Seu ID: <span>0010</span>
+                        </p>
                     </div>
-                </Modal>
-                {/* <div className="list-container">
-                    <div className="list-tit">
-                        <p>ID do Exame</p>
-                        <p>Nome do Funcionário</p>
-                        <p>Tipo do Exame</p>
-                        <p>Data do Exame</p>
-                        <p>Vencimento</p>
+
+                    <div className="right-b">
+                        <img src={profilePic} alt="Profile Pic" />
+                        <button>
+                            <FiEdit></FiEdit>
+                        </button>{" "}
+                        Editar Foto
                     </div>
-                    <div className="list-conteudo">
-                        <div className="list-item">
-                            <p>0001</p>
-                            <p>Vinicius</p>
-                            <p>Tipo Sanguineo</p>
-                            <p>11/05/2020</p>
-                            <p>11/12/2020</p>
-                        </div>
-                        <div className="list-item">
-                            <p>0001</p>
-                            <p>Vinicius</p>
-                            <p>Tipo Sanguineo</p>
-                            <p>11/05/2020</p>
-                            <p>11/12/2020</p>
-                        </div>
-                    </div>
-                </div> */}
-                <table className="tb-container">
-                    <tr className="tb-tit">
-                        <th>ID do Exame</th>
-                        <th>Nome do Funcionário</th>
-                        <th>Tipo do Exame</th>
-                        <th>Data do Exame</th>
-                        <th>Vencimento</th>
-                    </tr>
-                    <tr className="tb-item tb-first">
-                        <td>0001</td>
-                        <td>Vinicius</td>
-                        <td>Sangue</td>
-                        <td>11/05/2020</td>
-                        <td>11/12/2020</td>
-                    </tr>
-                    <tr className="tb-item">
-                        <td>0001</td>
-                        <td>Vinicius</td>
-                        <td>Sangue</td>
-                        <td>11/05/2020</td>
-                        <td>11/12/2020</td>
-                    </tr>
-                    <tr className="tb-item">
-                        <td>0001</td>
-                        <td>Vinicius</td>
-                        <td>Sangue</td>
-                        <td>11/05/2020</td>
-                        <td>11/12/2020</td>
-                    </tr>
-                    <tr className="tb-item">
-                        <td>0001</td>
-                        <td>Vinicius</td>
-                        <td>Sangue</td>
-                        <td>11/05/2020</td>
-                        <td>11/12/2020</td>
-                    </tr>
-                </table>
+                </div>
             </div>
         </div>
     );

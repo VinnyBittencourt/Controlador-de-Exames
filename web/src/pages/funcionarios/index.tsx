@@ -16,9 +16,9 @@ import api from "../../services/api";
 
 import logo from "../../assets/logo.png";
 import svgAccount from "../../assets/account.png";
-import svgText from "../../assets/text-w.png";
+import svgText from "../../assets/text.png";
 import svgfiles from "../../assets/files.png";
-import svgGroup from "../../assets/group.png";
+import svgGroup from "../../assets/group-w.png";
 
 import "./styles.css";
 import swal from "sweetalert";
@@ -194,10 +194,10 @@ const Dashboard: React.FC = () => {
             <div className="sidebar">
                 <img src={logo} alt="logo" className="logo-side" />
                 <div className="side-list">
-                    <Link to="/dashboard" className="side-active">
+                    <Link to="/dashboard">
                         <img src={svgText} alt="icon"></img>Dashboard
                     </Link>
-                    <Link to="/funcionarios">
+                    <Link to="/funcionarios" className="side-active">
                         <img src={svgGroup} alt="icon"></img>Funcionários
                     </Link>
                     <Link to="/exames">
@@ -214,11 +214,14 @@ const Dashboard: React.FC = () => {
             <div className="main-section">
                 <header className="header">
                     <div className="group-title">
-                        <h2>Dashboard</h2>
-                        <p>Exames para vencer</p>
+                        <h2>Funcionários</h2>
+                        <p>
+                            Lista de todos os funcionários cadastrados no
+                            sistema
+                        </p>
                     </div>
                     <button className="btn-primary" onClick={openModal}>
-                        <FiPlus></FiPlus>Novo Exame
+                        <FiPlus></FiPlus>Novo Funcionário
                     </button>
                 </header>
                 <Modal

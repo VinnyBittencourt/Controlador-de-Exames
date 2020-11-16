@@ -1,0 +1,16 @@
+.body-conta {
+    display: flex;
+}
+
+.left-b {
+    flex: 3;
+}
+
+.right-b {
+    flex: 1;
+}
+
+.left-b p span {
+    font-weight: 600;
+    margin-left: 20px;
+}

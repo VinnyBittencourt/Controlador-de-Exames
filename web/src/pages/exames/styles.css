@@ -1,0 +1,21 @@
+.buttons-header {
+    display: flex;
+}
+
+.buttons-header button:first-child {
+    margin-right: 10px;
+}
+
+.btn-secondary {
+    height: 50px;
+    background: transparent;
+    color: var(--main-color);
+    border: 1px solid var(--main-color);
+    padding: 0 50px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 16px;
+
+    display: flex;
+    align-items: center;
+}

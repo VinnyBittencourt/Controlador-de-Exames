@@ -16,8 +16,8 @@ import api from "../../services/api";
 
 import logo from "../../assets/logo.png";
 import svgAccount from "../../assets/account.png";
-import svgText from "../../assets/text-w.png";
-import svgfiles from "../../assets/files.png";
+import svgText from "../../assets/text.png";
+import svgfiles from "../../assets/files-w.png";
 import svgGroup from "../../assets/group.png";
 
 import "./styles.css";
@@ -194,13 +194,13 @@ const Dashboard: React.FC = () => {
             <div className="sidebar">
                 <img src={logo} alt="logo" className="logo-side" />
                 <div className="side-list">
-                    <Link to="/dashboard" className="side-active">
+                    <Link to="/dashboard">
                         <img src={svgText} alt="icon"></img>Dashboard
                     </Link>
                     <Link to="/funcionarios">
                         <img src={svgGroup} alt="icon"></img>Funcionários
                     </Link>
-                    <Link to="/exames">
+                    <Link to="/exames" className="side-active">
                         <img src={svgfiles} alt="icon"></img>Exames
                     </Link>
                     <Link to="/conta">
@@ -214,12 +214,17 @@ const Dashboard: React.FC = () => {
             <div className="main-section">
                 <header className="header">
                     <div className="group-title">
-                        <h2>Dashboard</h2>
-                        <p>Exames para vencer</p>
+                        <h2>Exames</h2>
+                        <p>Todos os exames cadastrados no sistema</p>
                     </div>
-                    <button className="btn-primary" onClick={openModal}>
-                        <FiPlus></FiPlus>Novo Exame
-                    </button>
+                    <div className="buttons-header">
+                        <button className="btn-secondary" onClick={openModal}>
+                            <FiPlus></FiPlus>Novo Tipo de Exame
+                        </button>
+                        <button className="btn-primary" onClick={openModal}>
+                            <FiPlus></FiPlus>Novo Exame
+                        </button>
+                    </div>
                 </header>
                 <Modal
                     isOpen={modalIsOpen}
