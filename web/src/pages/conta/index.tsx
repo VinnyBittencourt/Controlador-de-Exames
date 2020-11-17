@@ -240,12 +240,52 @@ const Dashboard: React.FC = () => {
 
                     <div className="right-b">
                         <img src={profilePic} alt="Profile Pic" />
-                        <button className="btn-profile">
-                            <FiEdit></FiEdit>
-                            {" "}
-                        Editar Foto
+                        <button className="btn-profile" onClick={openModal}>
+                            <FiEdit></FiEdit> Editar Foto
                         </button>
                     </div>
+                    <Modal
+                        isOpen={modalIsOpen}
+                        // onAfterOpen={afterOpenModal}
+                        onRequestClose={closeModal}
+                        contentLabel="Example Modal"
+                        className="modal-container"
+                    >
+                        <div className="modal">
+                            <h2>Suas Informações</h2>
+                            <img src={profilePic} alt="profile"/>
+                            <div className="row-modal">
+                                <div className="modal-group">
+                                    <label htmlFor="name">Name</label>
+                                    <input type="text" />
+                                </div>
+                                <div className="modal-group">
+                                    <label htmlFor="name">CPF</label>
+                                    <input type="text" />
+                                </div>
+                            </div>
+                            <div className="row-modal">
+                                <div className="modal-group">
+                                    <label htmlFor="name">Data</label>
+                                    <input type="text" />
+                                </div>
+                                <div className="modal-group">
+                                    <label htmlFor="name">Email</label>
+                                    <input type="text" />
+                                </div>
+                            </div>
+
+                            <button onClick={closeModal} className="btn-main">
+                                Atualizar Informações
+                            </button>
+                            <button
+                                onClick={closeModal}
+                                className="btn-close-modal"
+                            >
+                                <FiX size={25}></FiX>
+                            </button>
+                        </div>
+                    </Modal>
                 </div>
             </div>
         </div>
