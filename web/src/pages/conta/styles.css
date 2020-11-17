@@ -10,7 +10,38 @@
     flex: 1;
 }
 
-.left-b p span {
+.left-b{
+    display: flex;
+}
+
+.column-a p,
+.column-b p{
+    width: 100px;
+    margin-bottom: 10px;
+}
+
+.column-b p{
     font-weight: 600;
-    margin-left: 20px;
+}
+
+.right-b{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.btn-profile{
+    display: flex;
+    align-items: center;
+    border: none;
+    background: none;
+    color: var(--main-color);
+    font-size: 16px;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.btn-profile svg{
+    margin-right: 5px;
 }

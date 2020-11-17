@@ -30,6 +30,7 @@
     text-decoration: none;
     border-radius: 7px;
     color: var(--gray-color);
+    width: 242px;
 
     display: flex;
     align-items: center;

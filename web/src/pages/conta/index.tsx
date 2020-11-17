@@ -217,23 +217,34 @@ const Dashboard: React.FC = () => {
                 <header className="header">
                     <div className="group-title">
                         <h2>Conta</h2>
-                        <p>Suas informações</p>
+                        <p>Veja agora as suas informações</p>
                     </div>
+                    <button className="btn-primary" onClick={openModal}>
+                        <FiEdit></FiEdit>Editar Informações
+                    </button>
                 </header>
 
                 <div className="body-conta">
                     <div className="left-b">
-                        <p>
-                            Seu ID: <span>0010</span>
-                        </p>
+                        <div className="column-a">
+                            <p>Seu ID:</p>
+                            <p>Nome: </p>
+                            <p>CPF: </p>
+                        </div>
+                        <div className="column-b">
+                            <p>0010</p>
+                            <p>Vinicius</p>
+                            <p>168.128.068.28</p>
+                        </div>
                     </div>
 
                     <div className="right-b">
                         <img src={profilePic} alt="Profile Pic" />
-                        <button>
+                        <button className="btn-profile">
                             <FiEdit></FiEdit>
-                        </button>{" "}
+                            {" "}
                         Editar Foto
+                        </button>
                     </div>
                 </div>
             </div>
