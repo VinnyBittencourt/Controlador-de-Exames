@@ -17,7 +17,7 @@ class TipoExame {
     nome: string;
 
     @Column("time with time zone")
-    validade: Date;
+    validade: number;
 
     @CreateDateColumn()
     created_at: Date;

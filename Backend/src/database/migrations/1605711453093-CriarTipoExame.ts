@@ -24,7 +24,7 @@ export class CriarTipoExame1605711453093 implements MigrationInterface {
                     },
                     {
                         name: "validade",
-                        type: "timestamp with time zone",
+                        type: "integer",
                     },
                     {
                         name: "created_at",
