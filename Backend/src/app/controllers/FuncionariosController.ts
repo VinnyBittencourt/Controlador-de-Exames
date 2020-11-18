@@ -1,5 +1,4 @@
 import { getRepository } from "typeorm";
-import { startOfHour, parseISO } from "date-fns"; //ParseISO converte string para date, StartOfHour pega a hora do date e zera os min e segs
 import Funcionarios from "../models/Funcionarios";
 
 interface Request {

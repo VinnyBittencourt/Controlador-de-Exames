@@ -21,6 +21,7 @@ export class CriarRazaoExame1605711798515 implements MigrationInterface {
                     {
                         name: "razao",
                         type: "varchar",
+                        isUnique: true,
                     },
                     {
                         name: "created_at",

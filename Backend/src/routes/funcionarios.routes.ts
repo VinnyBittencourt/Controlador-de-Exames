@@ -7,7 +7,7 @@ import ensureAthen from "../middlewares/ensureAuthenticated";
 
 const funcionariosRouter = Router();
 
-funcionariosRouter.post("/", async (req, res) => {
+funcionariosRouter.post("/", ensureAthen, async (req, res) => {
     try {
         const { nome, cpf, funcao, telefone, email, avatar } = req.body;
         const funcionariosController = new FuncionariosController();
@@ -26,7 +26,7 @@ funcionariosRouter.post("/", async (req, res) => {
     }
 });
 
-funcionariosRouter.get("/", async (req, res) => {
+funcionariosRouter.get("/", ensureAthen, async (req, res) => {
     const funcionariosRepo = getRepository(Funcionarios);
     const funcio = await funcionariosRepo.find();
     console.log(req.user);
@@ -34,13 +34,13 @@ funcionariosRouter.get("/", async (req, res) => {
     return res.status(200).json(funcio);
 });
 
-funcionariosRouter.put("/:id", async (req, res) => {
+funcionariosRouter.put("/:id", ensureAthen, async (req, res) => {
     const { nome, cpf, funcao, telefone, email, avatar } = req.body;
-    const usuariosRepositorio = getRepository(Funcionarios);
+    const funcRepo = getRepository(Funcionarios);
     const { id } = req.params;
-    const user = await usuariosRepositorio.findOne(id);
+    const user = await funcRepo.findOne(id);
 
-    const funcionario = usuariosRepositorio.create({
+    const funcionario = funcRepo.create({
         nome,
         cpf,
         funcao,
@@ -48,12 +48,12 @@ funcionariosRouter.put("/:id", async (req, res) => {
         email,
         avatar,
     });
-    const respo = await usuariosRepositorio.save({ ...user, ...funcionario });
+    const respo = await funcRepo.save({ ...user, ...funcionario });
 
     return res.status(200).json(respo);
 });
 
-funcionariosRouter.delete("/:id", async (req, res) => {
+funcionariosRouter.delete("/:id", ensureAthen, async (req, res) => {
     const funcionariosRepo = getRepository(Funcionarios);
     const { id } = req.params;
     await funcionariosRepo.delete(id);
