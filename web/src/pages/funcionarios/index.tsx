@@ -1,16 +1,7 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Modal from "react-modal";
-import {
-    FiMapPin,
-    FiPower,
-    FiThumbsDown,
-    FiThumbsUp,
-    FiTrash2,
-    FiLogOut,
-    FiPlus,
-    FiX,
-} from "react-icons/fi";
+import { FiLogOut, FiPlus, FiX } from "react-icons/fi";
 
 import api from "../../services/api";
 
@@ -23,17 +14,26 @@ import svgGroup from "../../assets/group-w.png";
 import "./styles.css";
 import swal from "sweetalert";
 
-// interface evento {
-//     name: string;
-//     id: string;
-//     criador_evento_id: string;
-//     place: string;
-//     likes: number;
-//     dislikes: number;
-//     picture_used: string;
-//     bio: string;
-//     created_at: string;
-//     updated_at: string;
+interface funcio {
+    id: string;
+    nome: string;
+    cpf: string;
+    funcao: string;
+    telefone: string;
+    email: string;
+    avatar: string;
+}
+
+// interface funcion {
+//     [
+//         id: string,
+//         nome: string,
+//         cpf: string,
+//         funcao: string,
+//         telefone: string,
+//         email: string,
+//         avatar: string,
+//     ]: any;
 // }
 
 const customStyles = {
@@ -52,37 +52,33 @@ const customStyles = {
 Modal.setAppElement("body");
 
 const Dashboard: React.FC = () => {
-    // const [eventos, setEventos] = useState<evento[]>([]);
+    const [funcionarios, setFuncionarios] = useState<funcio[]>([]);
+    // const [idFunc, setIdFunc] = useState("");
+    const [nomeFunc, setNomeFunc] = useState("");
+    const [cpfFunc, setCpfFunc] = useState("");
+    const [funcaoFunc, setFuncaoFunc] = useState("");
+    const [telFunc, setTelFunc] = useState("");
+    const [emailFunc, setEmailFunc] = useState("");
 
     const history = useHistory();
-    // const userJWT = localStorage.getItem("userJWT");
+    const userJWT = localStorage.getItem("userJWT");
 
-    // useEffect(() => {
-    //     async function loadData(): Promise<void> {
-    //         const userJWT = await localStorage.getItem("userJWT");
-    //         const response = await api.get("/eventos", {
-    //             headers: {
-    //                 Authorization: `Bearer ${userJWT}`,
-    //             },
-    //         });
-    //         setEventos(response.data);
-    //     }
-    //     loadData();
-    // }, []);
+    useEffect(() => {
+        async function loadData(): Promise<void> {
+            const userJWT = await localStorage.getItem("userJWT");
+            const response = await api.get("/funcionarios/", {
+                headers: {
+                    Authorization: `Bearer ${userJWT}`,
+                },
+            });
+            if (response.data) {
+                setFuncionarios(response.data);
+            }
+        }
+        loadData();
+    }, []);
 
-    // useEffect(() => {
-    //     async function loadData(): Promise<void> {
-    //         const userJWT = await localStorage.getItem("userJWT");
-    //         const response = await api.get("/eventos", {
-    //             headers: {
-    //                 Authorization: `Bearer ${userJWT}`,
-    //             },
-    //         });
-    //         setEventos(response.data);
-    //     }
-    //     loadData();
-    // }, [eventos]);
-
+    /* Modal */
     var subtitle: any;
     const [modalIsOpen, setIsOpen] = React.useState(false);
     function openModal() {
@@ -98,91 +94,54 @@ const Dashboard: React.FC = () => {
         setIsOpen(false);
     }
 
-    // async function handleDeleteEvent(id: string, criador: any) {
-    //     try {
-    //         const user = localStorage.getItem("IdUser");
-    //         console.log("user", user);
-    //         console.log(criador);
-    //         if (user == criador) {
-    //             // const config = {
-    //             //     data: {
-    //             //         usuario_logged: criador,
-    //             //     },
-    //             // };
+    async function handleCadastroFunc(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const data = {
+            nome: nomeFunc,
+            cpf: cpfFunc,
+            funcao: funcaoFunc,
+            telefone: telFunc,
+            email: emailFunc,
+            avatar: "",
+        };
+        try {
+            console.log(data);
+            const respon = await api.post("/funcionarios", data, {
+                headers: {
+                    Authorization: `Bearer ${userJWT}`,
+                },
+            });
+            console.log(respon);
+            swal(
+                "Registro Completo",
+                "Um novo funcionário foi registrado!",
+                "success"
+            );
+            history.push("/funcionarios");
+            reloadp();
+        } catch (err) {
+            console.log(err);
+            swal("Ops!", "Algo deu errado!", "error");
+        }
+    }
 
-    //             const config = {
-    //                 headers: {
-    //                     "Content-Type": "application/json",
-    //                     Authorization: `Bearer ${userJWT}`,
-    //                 },
-    //             };
+    function reloadp() {
+        window.location.reload(false);
+    }
 
-    //             const usuario_logged = criador;
-    //             console.log(config);
-    //             const respoon = await api.delete(`/eventos/${id}`, config);
-    //             setEventos(eventos.filter((even) => even.id !== id));
-    //         }
-
-    //         if (user != criador) {
-    //             swal(
-    //                 "Ops!",
-    //                 "Only the creator of the event can delete it",
-    //                 "error"
-    //             );
-    //         }
-    //     } catch (err) {
-    //         alert("Erro ao deletar o evento");
-    //         console.log(err);
-    //     }
-    // }
-
-    // async function handleLike(evento: string) {
-    //     // e.preventDefault();
-
-    //     const evento_id = evento;
-    //     const usuario_id = localStorage.getItem("IdUser");
-
-    //     const data = {
-    //         evento_id,
-    //         usuario_id,
-    //     };
-
-    //     try {
-    //         console.log(data);
-    //         const respon = await api.post("/likes", data, {
-    //             headers: {
-    //                 Authorization: `Bearer ${userJWT}`,
-    //             },
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //         swal("Ops!", "Something went wrong", "error");
-    //     }
-    // }
-
-    // async function handleDislike(evento: string) {
-    //     // e.preventDefault();
-
-    //     const evento_id = evento;
-    //     const usuario_id = localStorage.getItem("IdUser");
-
-    //     const data = {
-    //         evento_id,
-    //         usuario_id,
-    //     };
-
-    //     try {
-    //         console.log(data);
-    //         const respon = await api.post("/dislikes", data, {
-    //             headers: {
-    //                 Authorization: `Bearer ${userJWT}`,
-    //             },
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //         swal("Ops!", "Something went wrong", "error");
-    //     }
-    // }
+    async function handleDeleteFunc(id_func: string) {
+        try {
+            await api.delete(`/funcionarios/${id_func}`, {
+                headers: {
+                    Authorization: `Bearer ${userJWT}`,
+                },
+            });
+            reloadp();
+        } catch (error) {
+            console.log(error);
+            swal("Ops!", "Algo deu errado!", "error");
+        }
+    }
 
     function handleLogout() {
         localStorage.clear();
@@ -231,87 +190,102 @@ const Dashboard: React.FC = () => {
                     contentLabel="Example Modal"
                     className="modal-container"
                 >
-                    <div className="modal">
-                        <h2>Resultado</h2>
-                        <p className="text-modal">
-                            O preço de venda do produto/serviço informado é de:
-                        </p>
-                        <p className="answer-modal">R$</p>
-                        {/* <p className="text-modal">Sendo a porcentagem de:</p> */}
-                        {/* <p className="answer-modal">{margemPorcentagem}%</p> */}
-
-                        <button onClick={closeModal} className="btn-main">
-                            Novo Produto
+                    <form className="modal" onSubmit={handleCadastroFunc}>
+                        <h2>Funcionário</h2>
+                        <p>Adicione agora um novo funcionário</p>
+                        <div className="row-modal">
+                            <div className="modal-group">
+                                <label htmlFor="name">Nome</label>
+                                <input
+                                    type="text"
+                                    value={nomeFunc}
+                                    onChange={(e) =>
+                                        setNomeFunc(e.target.value)
+                                    }
+                                />
+                            </div>
+                            <div className="modal-group">
+                                <label htmlFor="name">CPF</label>
+                                <input
+                                    type="text"
+                                    value={cpfFunc}
+                                    onChange={(e) => setCpfFunc(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <div className="row-modal">
+                            <div className="modal-group">
+                                <label htmlFor="name">Função</label>
+                                <input
+                                    type="text"
+                                    value={funcaoFunc}
+                                    onChange={(e) =>
+                                        setFuncaoFunc(e.target.value)
+                                    }
+                                />
+                            </div>
+                            <div className="modal-group">
+                                <label htmlFor="name">Telefone</label>
+                                <input
+                                    type="text"
+                                    value={telFunc}
+                                    onChange={(e) => setTelFunc(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <div className="row-modal">
+                            <div className="modal-group">
+                                <label htmlFor="name">Email</label>
+                                <input
+                                    type="text"
+                                    value={emailFunc}
+                                    onChange={(e) =>
+                                        setEmailFunc(e.target.value)
+                                    }
+                                />
+                            </div>
+                        </div>
+                        <button type="submit" className="btn-primary btn-modal">
+                            Cadastrar Funcionário
                         </button>
                         <button
                             onClick={closeModal}
                             className="btn-close-modal"
                         >
-                            <FiX size={18}></FiX>
+                            <FiX size={25}></FiX>
                         </button>
-                    </div>
+                    </form>
                 </Modal>
-                {/* <div className="list-container">
-                    <div className="list-tit">
-                        <p>ID do Exame</p>
-                        <p>Nome do Funcionário</p>
-                        <p>Tipo do Exame</p>
-                        <p>Data do Exame</p>
-                        <p>Vencimento</p>
-                    </div>
-                    <div className="list-conteudo">
-                        <div className="list-item">
-                            <p>0001</p>
-                            <p>Vinicius</p>
-                            <p>Tipo Sanguineo</p>
-                            <p>11/05/2020</p>
-                            <p>11/12/2020</p>
-                        </div>
-                        <div className="list-item">
-                            <p>0001</p>
-                            <p>Vinicius</p>
-                            <p>Tipo Sanguineo</p>
-                            <p>11/05/2020</p>
-                            <p>11/12/2020</p>
-                        </div>
-                    </div>
-                </div> */}
                 <table className="tb-container">
                     <tr className="tb-tit">
-                        <th>ID do Exame</th>
+                        <th>ID do Funcionario</th>
                         <th>Nome do Funcionário</th>
-                        <th>Tipo do Exame</th>
-                        <th>Data do Exame</th>
-                        <th>Vencimento</th>
+                        <th>CPF</th>
+                        <th>Função</th>
+                        <th>Telefone</th>
+                        <th>Email</th>
+                        <th></th>
                     </tr>
-                    <tr className="tb-item tb-first">
-                        <td>0001</td>
-                        <td>Vinicius</td>
-                        <td>Sangue</td>
-                        <td>11/05/2020</td>
-                        <td>11/12/2020</td>
-                    </tr>
-                    <tr className="tb-item">
-                        <td>0001</td>
-                        <td>Vinicius</td>
-                        <td>Sangue</td>
-                        <td>11/05/2020</td>
-                        <td>11/12/2020</td>
-                    </tr>
-                    <tr className="tb-item">
-                        <td>0001</td>
-                        <td>Vinicius</td>
-                        <td>Sangue</td>
-                        <td>11/05/2020</td>
-                        <td>11/12/2020</td>
-                    </tr>
-                    <tr className="tb-item">
-                        <td>0001</td>
-                        <td>Vinicius</td>
-                        <td>Sangue</td>
-                        <td>11/05/2020</td>
-                        <td>11/12/2020</td>
-                    </tr>
+                    {funcionarios.map((func) => (
+                        <tr className="tb-item tb-first" key={func.id}>
+                            <td>{func.id}</td>
+                            <td>{func.nome}</td>
+                            <td>{func.cpf}</td>
+                            <td>{func.funcao}</td>
+                            <td>{func.telefone}</td>
+                            <td>{func.email}</td>
+                            <td className="btns-table">
+                                <Link to={"/functionarios/edit/" + func.id}>
+                                    Edit
+                                </Link>
+                                <button
+                                    onClick={() => handleDeleteFunc(func.id)}
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
                 </table>
             </div>
         </div>

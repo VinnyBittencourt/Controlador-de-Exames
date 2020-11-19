@@ -199,6 +199,7 @@
     font-size: 16px;
     font-weight: 300;
     color: var(--gray-color);
+    margin-bottom: 30px;
 }
 
 .modal .text-modal {
@@ -217,4 +218,34 @@
     border: none;
     background: transparent;
     cursor: pointer;
+}
+
+.row-modal {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.modal-group {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.modal-group label {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--gray-color-light);
+    margin-bottom: 5px;
+}
+
+.modal-group input {
+    height: 48px;
+    padding: 0 15px;
+    border: 1px solid var(--main-color-light);
+    color: var(--gray-color);
+    width: 200px;
+    font-size: 16px;
+    border-radius: 5px;
 }
