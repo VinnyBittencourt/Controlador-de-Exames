@@ -15,7 +15,7 @@ class Usuarios {
     nome: string;
 
     @Column()
-    email: string;
+    matricula: string;
 
     @Column()
     password: string;

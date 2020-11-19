@@ -18,7 +18,7 @@ export default class CriarUsuarios1598471708288 implements MigrationInterface {
                         type: "varchar",
                     },
                     {
-                        name: "email",
+                        name: "matricula",
                         type: "varchar",
                         isUnique: true,
                     },

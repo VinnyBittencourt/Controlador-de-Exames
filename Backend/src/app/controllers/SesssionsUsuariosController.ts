@@ -5,7 +5,7 @@ import authConfig from "../../config/auth";
 import Usuarios from "../models/Usuarios";
 
 interface Request {
-    email: string;
+    matricula: string;
     password: string;
 }
 
@@ -14,19 +14,19 @@ interface Response {
     token: string;
 }
 class SessionsUsuariosController {
-    public async store({ email, password }: Request): Promise<Response> {
+    public async store({ matricula, password }: Request): Promise<Response> {
         const usuariosRepository = getRepository(Usuarios);
         const user = await usuariosRepository.findOne({
-            where: { email },
+            where: { matricula },
         });
         if (!user) {
-            throw new Error("Combinação de email/senha incorretos");
+            throw new Error("Combinação de matricula/senha incorretos");
         }
 
         const verificaSenha = await compare(password, user.password);
 
         if (!verificaSenha) {
-            throw new Error("Combinação de email/senha incorretos");
+            throw new Error("Combinação de matricula/senha incorretos");
         }
 
         const token = sign({}, authConfig.jwt.secret, {

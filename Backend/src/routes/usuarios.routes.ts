@@ -14,13 +14,13 @@ const upload = multer(uploadConfig);
 
 usuariosRouter.post("/", async (req, res) => {
     try {
-        const { nome, email, password } = req.body;
+        const { nome, matricula, password } = req.body;
 
         const usuariosController = new UsuariosController();
 
         const user = await usuariosController.store({
             nome,
-            email,
+            matricula,
             password,
         });
 

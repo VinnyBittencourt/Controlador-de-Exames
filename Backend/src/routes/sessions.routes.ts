@@ -6,12 +6,12 @@ const sessionsRouter = Router();
 
 sessionsRouter.post("/", async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { matricula, password } = req.body;
 
         const sessionsController = new SessionsController();
 
         const { user, token } = await sessionsController.store({
-            email,
+            matricula,
             password,
         });
 
