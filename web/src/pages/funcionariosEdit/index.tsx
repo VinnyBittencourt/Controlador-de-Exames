@@ -14,46 +14,9 @@ import svgGroup from "../../assets/group-w.png";
 import "./styles.css";
 import swal from "sweetalert";
 
-interface funcio {
-    id: string;
-    nome: string;
-    cpf: string;
-    funcao: string;
-    telefone: string;
-    email: string;
-    avatar: string;
-}
-
-// interface funcion {
-//     [
-//         id: string,
-//         nome: string,
-//         cpf: string,
-//         funcao: string,
-//         telefone: string,
-//         email: string,
-//         avatar: string,
-//     ]: any;
-// }
-
-const customStyles = {
-    content: {
-        top: "50%",
-        left: "50%",
-        right: "auto",
-        bottom: "auto",
-        marginRight: "-50%",
-        transform: "translate(-50%, -50%)",
-    },
-};
-
-// Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
-// Modal.setAppElement("#yourAppElement");
 Modal.setAppElement("body");
 
 const Dashboard: React.FC = () => {
-    const [funcionarios, setFuncionarios] = useState<funcio[]>([]);
-    // const [idFunc, setIdFunc] = useState("");
     const [nomeFunc, setNomeFunc] = useState("");
     const [cpfFunc, setCpfFunc] = useState("");
     const [funcaoFunc, setFuncaoFunc] = useState("");
