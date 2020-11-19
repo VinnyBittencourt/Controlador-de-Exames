@@ -62,18 +62,21 @@ const Dashboard: React.FC = () => {
 
     const history = useHistory();
     const userJWT = localStorage.getItem("userJWT");
+    const idParam = window.location.href.split("/").reverse()[0];
 
     useEffect(() => {
         async function loadData(): Promise<void> {
             const userJWT = await localStorage.getItem("userJWT");
-            const response = await api.get("/funcionarios/", {
+            const response = await api.get(`/funcionarios/${idParam}`, {
                 headers: {
                     Authorization: `Bearer ${userJWT}`,
                 },
             });
-            if (response.data) {
-                setFuncionarios(response.data);
-            }
+            setNomeFunc(response.data.nome);
+            setCpfFunc(response.data.cpf);
+            setFuncaoFunc(response.data.funcao);
+            setTelFunc(response.data.telefone);
+            setEmailFunc(response.data.email);
         }
         loadData();
     }, []);
@@ -106,19 +109,28 @@ const Dashboard: React.FC = () => {
         };
         try {
             console.log(data);
-            const respon = await api.put("/funcionarios", data, {
+            if (
+                !data.nome ||
+                !data.cpf ||
+                !data.funcao ||
+                !data.telefone ||
+                !data.email
+            ) {
+                swal("Ops!", "Algo deu errado!", "error");
+                return;
+            }
+            const respon = await api.put(`/funcionarios/${idParam}`, data, {
                 headers: {
                     Authorization: `Bearer ${userJWT}`,
                 },
             });
             console.log(respon);
             swal(
-                "Registro Completo",
-                "Um novo funcionário foi registrado!",
+                "Atualização Realizada",
+                "Funcionário atualizado com sucesso!",
                 "success"
             );
             history.push("/funcionarios");
-            reloadp();
         } catch (err) {
             console.log(err);
             swal("Ops!", "Algo deu errado!", "error");
