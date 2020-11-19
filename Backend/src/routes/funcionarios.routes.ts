@@ -34,6 +34,13 @@ funcionariosRouter.get("/", ensureAthen, async (req, res) => {
     return res.status(200).json(funcio);
 });
 
+funcionariosRouter.get("/:id", ensureAthen, async (req, res) => {
+    const usuariosRepositorio = getRepository(Funcionarios);
+    const { id } = req.params;
+    const user = await usuariosRepositorio.findOne(id);
+    return res.status(200).json(user);
+});
+
 funcionariosRouter.put("/:id", ensureAthen, async (req, res) => {
     const { nome, cpf, funcao, telefone, email, avatar } = req.body;
     const funcRepo = getRepository(Funcionarios);

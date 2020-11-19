@@ -1,0 +1,10 @@
+.body-funcedit {
+    max-width: 500px;
+}
+
+.btn-voltar {
+    display: flex;
+    align-items: center;
+    color: var(--gray-color);
+    margin-top: 15px;
+}

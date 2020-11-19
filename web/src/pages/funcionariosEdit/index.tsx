@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Modal from "react-modal";
-import { FiLogOut, FiPlus, FiX } from "react-icons/fi";
+import { FiLogOut, FiArrowLeft } from "react-icons/fi";
 
 import api from "../../services/api";
 
@@ -94,7 +94,7 @@ const Dashboard: React.FC = () => {
         setIsOpen(false);
     }
 
-    async function handleCadastroFunc(e: FormEvent<HTMLFormElement>) {
+    async function handleUpdateFunc(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const data = {
             nome: nomeFunc,
@@ -106,7 +106,7 @@ const Dashboard: React.FC = () => {
         };
         try {
             console.log(data);
-            const respon = await api.post("/funcionarios", data, {
+            const respon = await api.put("/funcionarios", data, {
                 headers: {
                     Authorization: `Bearer ${userJWT}`,
                 },
@@ -179,114 +179,62 @@ const Dashboard: React.FC = () => {
                             sistema
                         </p>
                     </div>
-                    <button className="btn-primary" onClick={openModal}>
-                        <FiPlus></FiPlus>Novo Funcionário
-                    </button>
                 </header>
-                <Modal
-                    isOpen={modalIsOpen}
-                    // onAfterOpen={afterOpenModal}
-                    onRequestClose={closeModal}
-                    contentLabel="Example Modal"
-                    className="modal-container"
-                >
-                    <form className="modal" onSubmit={handleCadastroFunc}>
-                        <h2>Funcionário</h2>
-                        <p>Adicione agora um novo funcionário</p>
-                        <div className="row-modal">
-                            <div className="modal-group">
-                                <label htmlFor="name">Nome</label>
-                                <input
-                                    type="text"
-                                    value={nomeFunc}
-                                    onChange={(e) =>
-                                        setNomeFunc(e.target.value)
-                                    }
-                                />
-                            </div>
-                            <div className="modal-group">
-                                <label htmlFor="name">CPF</label>
-                                <input
-                                    type="text"
-                                    value={cpfFunc}
-                                    onChange={(e) => setCpfFunc(e.target.value)}
-                                />
-                            </div>
+
+                <form className="body-funcedit" onSubmit={handleUpdateFunc}>
+                    <div className="row-modal">
+                        <div className="modal-group">
+                            <label htmlFor="name">Nome</label>
+                            <input
+                                type="text"
+                                value={nomeFunc}
+                                onChange={(e) => setNomeFunc(e.target.value)}
+                            />
                         </div>
-                        <div className="row-modal">
-                            <div className="modal-group">
-                                <label htmlFor="name">Função</label>
-                                <input
-                                    type="text"
-                                    value={funcaoFunc}
-                                    onChange={(e) =>
-                                        setFuncaoFunc(e.target.value)
-                                    }
-                                />
-                            </div>
-                            <div className="modal-group">
-                                <label htmlFor="name">Telefone</label>
-                                <input
-                                    type="text"
-                                    value={telFunc}
-                                    onChange={(e) => setTelFunc(e.target.value)}
-                                />
-                            </div>
+                        <div className="modal-group">
+                            <label htmlFor="name">CPF</label>
+                            <input
+                                type="text"
+                                value={cpfFunc}
+                                onChange={(e) => setCpfFunc(e.target.value)}
+                            />
                         </div>
-                        <div className="row-modal">
-                            <div className="modal-group">
-                                <label htmlFor="name">Email</label>
-                                <input
-                                    type="text"
-                                    value={emailFunc}
-                                    onChange={(e) =>
-                                        setEmailFunc(e.target.value)
-                                    }
-                                />
-                            </div>
+                    </div>
+                    <div className="row-modal">
+                        <div className="modal-group">
+                            <label htmlFor="name">Função</label>
+                            <input
+                                type="text"
+                                value={funcaoFunc}
+                                onChange={(e) => setFuncaoFunc(e.target.value)}
+                            />
                         </div>
-                        <button type="submit" className="btn-primary btn-modal">
-                            Cadastrar Funcionário
-                        </button>
-                        <button
-                            onClick={closeModal}
-                            className="btn-close-modal"
-                        >
-                            <FiX size={25}></FiX>
-                        </button>
-                    </form>
-                </Modal>
-                <table className="tb-container">
-                    <tr className="tb-tit">
-                        <th>ID do Funcionario</th>
-                        <th>Nome do Funcionário</th>
-                        <th>CPF</th>
-                        <th>Função</th>
-                        <th>Telefone</th>
-                        <th>Email</th>
-                        <th></th>
-                    </tr>
-                    {funcionarios.map((func) => (
-                        <tr className="tb-item tb-first" key={func.id}>
-                            <td>{func.id}</td>
-                            <td>{func.nome}</td>
-                            <td>{func.cpf}</td>
-                            <td>{func.funcao}</td>
-                            <td>{func.telefone}</td>
-                            <td>{func.email}</td>
-                            <td className="btns-table">
-                                <Link to={"/funcionariosedit/" + func.id}>
-                                    Edit
-                                </Link>
-                                <button
-                                    onClick={() => handleDeleteFunc(func.id)}
-                                >
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </table>
+                        <div className="modal-group">
+                            <label htmlFor="name">Telefone</label>
+                            <input
+                                type="text"
+                                value={telFunc}
+                                onChange={(e) => setTelFunc(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                    <div className="row-modal">
+                        <div className="modal-group">
+                            <label htmlFor="name">Email</label>
+                            <input
+                                type="text"
+                                value={emailFunc}
+                                onChange={(e) => setEmailFunc(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                    <button type="submit" className="btn-primary btn-modal">
+                        Atualizar Funcionário
+                    </button>
+                    <Link to="/funcionarios" className="btn-voltar">
+                        <FiArrowLeft></FiArrowLeft>Voltar
+                    </Link>
+                </form>
             </div>
         </div>
     );
