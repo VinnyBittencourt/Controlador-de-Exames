@@ -184,6 +184,10 @@ const Dashboard: React.FC = () => {
     //     }
     // }
 
+    function handleEditInfo() {
+        alert("Foi");
+    }
+
     function handleLogout() {
         localStorage.clear();
         history.push("/");
@@ -228,25 +232,39 @@ const Dashboard: React.FC = () => {
                     contentLabel="Example Modal"
                     className="modal-container"
                 >
-                    <div className="modal">
-                        <h2>Resultado</h2>
-                        <p className="text-modal">
-                            O preço de venda do produto/serviço informado é de:
-                        </p>
-                        <p className="answer-modal">R$</p>
-                        {/* <p className="text-modal">Sendo a porcentagem de:</p> */}
-                        {/* <p className="answer-modal">{margemPorcentagem}%</p> */}
-
-                        <button onClick={closeModal} className="btn-main">
-                            Novo Produto
+                    <form className="modal" onSubmit={handleEditInfo}>
+                        <h2>CONTA</h2>
+                        <p>Edite agora suas informações</p>
+                        <div className="row-modal">
+                            <div className="modal-group">
+                                <label htmlFor="name">Name</label>
+                                <input type="text" />
+                            </div>
+                            <div className="modal-group">
+                                <label htmlFor="name">CPF</label>
+                                <input type="text" />
+                            </div>
+                        </div>
+                        <div className="row-modal">
+                            <div className="modal-group">
+                                <label htmlFor="name">Data</label>
+                                <input type="text" />
+                            </div>
+                            <div className="modal-group">
+                                <label htmlFor="name">Email</label>
+                                <input type="text" />
+                            </div>
+                        </div>
+                        <button type="submit" className="btn-main">
+                            Atualizar Informações
                         </button>
                         <button
                             onClick={closeModal}
                             className="btn-close-modal"
                         >
-                            <FiX size={18}></FiX>
+                            <FiX size={25}></FiX>
                         </button>
-                    </div>
+                    </form>
                 </Modal>
                 {/* <div className="list-container">
                     <div className="list-tit">

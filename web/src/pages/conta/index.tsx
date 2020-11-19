@@ -1,17 +1,7 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Modal from "react-modal";
-import {
-    FiMapPin,
-    FiPower,
-    FiThumbsDown,
-    FiThumbsUp,
-    FiTrash2,
-    FiLogOut,
-    FiPlus,
-    FiX,
-    FiEdit,
-} from "react-icons/fi";
+import { FiLogOut, FiX, FiEdit } from "react-icons/fi";
 
 import api from "../../services/api";
 
@@ -25,18 +15,11 @@ import profilePic from "../../assets/profille.png";
 import "./styles.css";
 import swal from "sweetalert";
 
-// interface evento {
-//     name: string;
-//     id: string;
-//     criador_evento_id: string;
-//     place: string;
-//     likes: number;
-//     dislikes: number;
-//     picture_used: string;
-//     bio: string;
-//     created_at: string;
-//     updated_at: string;
-// }
+interface Conta {
+    id: string;
+    nome: string;
+    matricula: string;
+}
 
 const customStyles = {
     content: {
@@ -55,35 +38,32 @@ Modal.setAppElement("body");
 
 const Dashboard: React.FC = () => {
     // const [eventos, setEventos] = useState<evento[]>([]);
+    const [idConta, setIdConta] = useState("");
+    const [nome, setNome] = useState("");
+    const [matricula, setMatricula] = useState("");
+    const [obje, setObje] = useState<Conta>();
+
+    const userJWT = localStorage.getItem("userJWT");
+    const userID = localStorage.getItem("IdUser");
 
     const history = useHistory();
-    // const userJWT = localStorage.getItem("userJWT");
 
-    // useEffect(() => {
-    //     async function loadData(): Promise<void> {
-    //         const userJWT = await localStorage.getItem("userJWT");
-    //         const response = await api.get("/eventos", {
-    //             headers: {
-    //                 Authorization: `Bearer ${userJWT}`,
-    //             },
-    //         });
-    //         setEventos(response.data);
-    //     }
-    //     loadData();
-    // }, []);
-
-    // useEffect(() => {
-    //     async function loadData(): Promise<void> {
-    //         const userJWT = await localStorage.getItem("userJWT");
-    //         const response = await api.get("/eventos", {
-    //             headers: {
-    //                 Authorization: `Bearer ${userJWT}`,
-    //             },
-    //         });
-    //         setEventos(response.data);
-    //     }
-    //     loadData();
-    // }, [eventos]);
+    useEffect(() => {
+        async function loadData(): Promise<void> {
+            const userJWT = await localStorage.getItem("userJWT");
+            const userID = localStorage.getItem("IdUser");
+            const response = await api.get(`/usuarios/${userID}`, {
+                headers: {
+                    Authorization: `Bearer ${userJWT}`,
+                },
+            });
+            setObje(response.data);
+            setIdConta(response.data.id);
+            setNome(response.data.nome);
+            setMatricula(response.data.matricula);
+        }
+        loadData();
+    }, []);
 
     var subtitle: any;
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -100,91 +80,21 @@ const Dashboard: React.FC = () => {
         setIsOpen(false);
     }
 
-    // async function handleDeleteEvent(id: string, criador: any) {
-    //     try {
-    //         const user = localStorage.getItem("IdUser");
-    //         console.log("user", user);
-    //         console.log(criador);
-    //         if (user == criador) {
-    //             // const config = {
-    //             //     data: {
-    //             //         usuario_logged: criador,
-    //             //     },
-    //             // };
+    async function handleEditInfo(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
 
-    //             const config = {
-    //                 headers: {
-    //                     "Content-Type": "application/json",
-    //                     Authorization: `Bearer ${userJWT}`,
-    //                 },
-    //             };
-
-    //             const usuario_logged = criador;
-    //             console.log(config);
-    //             const respoon = await api.delete(`/eventos/${id}`, config);
-    //             setEventos(eventos.filter((even) => even.id !== id));
-    //         }
-
-    //         if (user != criador) {
-    //             swal(
-    //                 "Ops!",
-    //                 "Only the creator of the event can delete it",
-    //                 "error"
-    //             );
-    //         }
-    //     } catch (err) {
-    //         alert("Erro ao deletar o evento");
-    //         console.log(err);
-    //     }
-    // }
-
-    // async function handleLike(evento: string) {
-    //     // e.preventDefault();
-
-    //     const evento_id = evento;
-    //     const usuario_id = localStorage.getItem("IdUser");
-
-    //     const data = {
-    //         evento_id,
-    //         usuario_id,
-    //     };
-
-    //     try {
-    //         console.log(data);
-    //         const respon = await api.post("/likes", data, {
-    //             headers: {
-    //                 Authorization: `Bearer ${userJWT}`,
-    //             },
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //         swal("Ops!", "Something went wrong", "error");
-    //     }
-    // }
-
-    // async function handleDislike(evento: string) {
-    //     // e.preventDefault();
-
-    //     const evento_id = evento;
-    //     const usuario_id = localStorage.getItem("IdUser");
-
-    //     const data = {
-    //         evento_id,
-    //         usuario_id,
-    //     };
-
-    //     try {
-    //         console.log(data);
-    //         const respon = await api.post("/dislikes", data, {
-    //             headers: {
-    //                 Authorization: `Bearer ${userJWT}`,
-    //             },
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //         swal("Ops!", "Something went wrong", "error");
-    //     }
-    // }
+        try {
+            const respon = await api.post("/usuarios/avatar", {
+                headers: {
+                    Authorization: `Bearer ${userJWT}`,
+                },
+            });
+            history.push("/conta");
+        } catch (error) {
+            console.log(error);
+            swal("Ops!", "Algo deu errado", "error");
+        }
+    }
 
     function handleLogout() {
         localStorage.clear();
@@ -219,9 +129,9 @@ const Dashboard: React.FC = () => {
                         <h2>Conta</h2>
                         <p>Veja agora as suas informações</p>
                     </div>
-                    <button className="btn-primary" onClick={openModal}>
+                    {/* <button className="btn-primary" onClick={openModal}>
                         <FiEdit></FiEdit>Editar Informações
-                    </button>
+                    </button> */}
                 </header>
 
                 <div className="body-conta">
@@ -229,12 +139,12 @@ const Dashboard: React.FC = () => {
                         <div className="column-a">
                             <p>Seu ID:</p>
                             <p>Nome: </p>
-                            <p>CPF: </p>
+                            <p>Matricula: </p>
                         </div>
                         <div className="column-b">
-                            <p>0010</p>
-                            <p>Vinicius</p>
-                            <p>168.128.068.28</p>
+                            <p>{idConta}</p>
+                            <p>{nome}</p>
+                            <p>{matricula}</p>
                         </div>
                     </div>
 
@@ -251,40 +161,31 @@ const Dashboard: React.FC = () => {
                         contentLabel="Example Modal"
                         className="modal-container"
                     >
-                        <div className="modal">
-                            <h2>Suas Informações</h2>
-                            <img src={profilePic} alt="profile"/>
-                            <div className="row-modal">
-                                <div className="modal-group">
-                                    <label htmlFor="name">Name</label>
-                                    <input type="text" />
-                                </div>
-                                <div className="modal-group">
-                                    <label htmlFor="name">CPF</label>
-                                    <input type="text" />
-                                </div>
-                            </div>
-                            <div className="row-modal">
-                                <div className="modal-group">
-                                    <label htmlFor="name">Data</label>
-                                    <input type="text" />
-                                </div>
-                                <div className="modal-group">
-                                    <label htmlFor="name">Email</label>
-                                    <input type="text" />
-                                </div>
-                            </div>
+                        <form className="modal" onSubmit={handleEditInfo}>
+                            <h2>CONTA</h2>
+                            <p>Altere agora a sua imagem de profile</p>
 
-                            <button onClick={closeModal} className="btn-main">
+                            <div className="modal-pic-container">
+                                <img src={profilePic} alt="profile" />
+                                <input
+                                    type="file"
+                                    className="custom-file-input"
+                                ></input>
+                            </div>
+                            <button
+                                type="submit"
+                                className="btn-primary btn-modal"
+                            >
                                 Atualizar Informações
                             </button>
+
                             <button
                                 onClick={closeModal}
                                 className="btn-close-modal"
                             >
                                 <FiX size={25}></FiX>
                             </button>
-                        </div>
+                        </form>
                     </Modal>
                 </div>
             </div>

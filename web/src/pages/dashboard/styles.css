@@ -191,9 +191,14 @@
 .modal h2 {
     font-size: 30px;
     font-weight: 900;
-    margin-bottom: 15px;
     color: var(--gray-color);
     text-transform: uppercase;
+}
+
+.modal p {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--gray-color);
 }
 
 .modal .text-modal {

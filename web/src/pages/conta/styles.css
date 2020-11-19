@@ -10,27 +10,30 @@
     flex: 1;
 }
 
-.left-b{
+.left-b {
     display: flex;
 }
 
 .column-a p,
-.column-b p{
-    width: 100px;
+.column-b p {
     margin-bottom: 20px;
 }
 
-.column-b p{
+.column-a {
+    width: 100px;
+}
+
+.column-b p {
     font-weight: 600;
 }
 
-.right-b{
+.right-b {
     display: flex;
     align-items: center;
     flex-direction: column;
 }
 
-.btn-profile{
+.btn-profile {
     display: flex;
     align-items: center;
     border: none;
@@ -42,6 +45,49 @@
     margin-top: 20px;
 }
 
-.btn-profile svg{
+.btn-profile svg {
     margin-right: 5px;
+}
+
+.custom-file-input::-webkit-file-upload-button {
+    visibility: hidden;
+}
+.custom-file-input::before {
+    content: "Alterar Imagem";
+    display: inline-block;
+    background: linear-gradient(top, #f9f9f9, #e3e3e3);
+    border: 1px solid var(--main-color);
+    border-radius: 3px;
+    padding: 12px 35px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff;
+    font-weight: 700;
+    font-size: 10pt;
+    color: var(--gray-color);
+}
+.custom-file-input:hover::before {
+    border-color: black;
+}
+.custom-file-input:active::before {
+    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+
+.custom-file-input {
+    max-width: 170px;
+    margin-left: 40px;
+}
+
+.modal-pic-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.modal-pic-container img {
+    width: 150px;
 }
