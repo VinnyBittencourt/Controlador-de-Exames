@@ -218,9 +218,9 @@ const Dashboard: React.FC = () => {
                         <p>Todos os exames cadastrados no sistema</p>
                     </div>
                     <div className="buttons-header">
-                        <button className="btn-secondary" onClick={openModal}>
-                            <FiPlus></FiPlus>Novo Tipo de Exame
-                        </button>
+                        <Link to="/examestipo" className="btn-secondary">
+                            <FiPlus></FiPlus>Novo Tipo/Razão
+                        </Link>
                         <button className="btn-primary" onClick={openModal}>
                             <FiPlus></FiPlus>Novo Exame
                         </button>

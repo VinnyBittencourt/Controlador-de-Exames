@@ -1,0 +1,25 @@
+.body-exame-tipo {
+    display: flex;
+    flex-direction: column;
+    max-width: 420px;
+}
+
+.left-form {
+    /* margin-right: 20px;
+    padding-right: 20px;
+    border-right: 1px solid var(--gray-color-lines); */
+    margin-bottom: 45px;
+}
+
+.left-form .row-modal,
+.right-form .row-modal {
+    margin-right: 15px;
+}
+
+.left-form h2,
+.right-form h2 {
+    font-size: 25px;
+    color: var(--gray-color);
+    margin-bottom: 10px;
+    font-weight: bold;
+}
