@@ -39,6 +39,15 @@ interface tipo {
     validade: string;
 }
 
+interface exams {
+    id: string;
+    funcionario_id: string;
+    razaoExame_id: string;
+    tipoExame_id: string;
+    data: string;
+    vencimento: string;
+}
+
 const customStyles = {
     content: {
         top: "50%",
@@ -59,6 +68,7 @@ const Dashboard: React.FC = () => {
     const [funcIDs, setFuncIDs] = useState<funcio[]>([]);
     const [razaoIDs, setRazaoIDs] = useState<razao[]>([]);
     const [tipoIDs, setTipoIDs] = useState<tipo[]>([]);
+    const [exames, setExames] = useState<exams[]>([]);
     const [dataExame, setDataExame] = useState("");
     const [venciExame, setVenciExame] = useState("");
     const [funcid, setFuncid] = useState("");
@@ -91,6 +101,21 @@ const Dashboard: React.FC = () => {
                 },
             });
             setTipoIDs(respon.data);
+        }
+        loadData();
+    }, []);
+
+    useEffect(() => {
+        async function loadData(): Promise<void> {
+            const userJWT = await localStorage.getItem("userJWT");
+            const response = await api.get("/exame/", {
+                headers: {
+                    Authorization: `Bearer ${userJWT}`,
+                },
+            });
+            if (response.data) {
+                setExames(response.data);
+            }
         }
         loadData();
     }, []);
@@ -155,6 +180,24 @@ const Dashboard: React.FC = () => {
 
     function handleTips(valor: string) {
         setTipoid(valor);
+    }
+
+    async function handleDeleteExam(id_func: string) {
+        try {
+            await api.delete(`/exame/${id_func}`, {
+                headers: {
+                    Authorization: `Bearer ${userJWT}`,
+                },
+            });
+            reloadp();
+        } catch (error) {
+            console.log(error);
+            swal("Ops!", "Algo deu errado!", "error");
+        }
+    }
+
+    function reloadp() {
+        window.location.reload(false);
     }
 
     function handleLogout() {
@@ -303,22 +346,31 @@ const Dashboard: React.FC = () => {
                 <table className="tb-container">
                     <tr className="tb-tit">
                         <th>ID do Exame</th>
-                        <th>Nome do Funcionário</th>
-                        <th>Tipo do Exame</th>
+                        <th>ID do Funcionário</th>
+                        <th>ID da Razão</th>
+                        <th>ID do Tipo</th>
                         <th>Data do Exame</th>
-                        <th>Vencimento</th>
+                        <th>Vencimento do Exame</th>
+                        <th></th>
                     </tr>
-                    <tr className="tb-item tb-first">
-                        <td>0001</td>
-                        <td>Vinicius</td>
-                        <td>Sangue</td>
-                        <td>11/05/2020</td>
-                        <td>11/12/2020</td>
-                    </tr>
-                    {funcIDs.map((func) => (
-                        <tr className="tb-item tb-first" key={func.id}>
-                            <td>{func.id}</td>
-                            <td>{func.nome}</td>
+                    {exames.map((exa) => (
+                        <tr className="tb-item tb-first" key={exa.id}>
+                            <td>{exa.id}</td>
+                            <td>{exa.funcionario_id}</td>
+                            <td>{exa.razaoExame_id}</td>
+                            <td>{exa.tipoExame_id}</td>
+                            <td>{exa.data}</td>
+                            <td>{exa.vencimento}</td>
+                            <td className="btns-table">
+                                <Link to={"/funcionariosedit/" + exa.id}>
+                                    Edit
+                                </Link>
+                                <button
+                                    onClick={() => handleDeleteExam(exa.id)}
+                                >
+                                    Delete
+                                </button>
+                            </td>
                         </tr>
                     ))}
                 </table>

@@ -23,18 +23,30 @@ import svgGroup from "../../assets/group.png";
 import "./styles.css";
 import swal from "sweetalert";
 
-// interface evento {
-//     name: string;
-//     id: string;
-//     criador_evento_id: string;
-//     place: string;
-//     likes: number;
-//     dislikes: number;
-//     picture_used: string;
-//     bio: string;
-//     created_at: string;
-//     updated_at: string;
-// }
+interface funcio {
+    id: string;
+    nome: string;
+}
+
+interface razao {
+    id: string;
+    razao: string;
+}
+
+interface tipo {
+    id: string;
+    nome: string;
+    validade: string;
+}
+
+interface exams {
+    id: string;
+    funcionario_id: string;
+    razaoExame_id: string;
+    tipoExame_id: string;
+    data: string;
+    vencimento: string;
+}
 
 const customStyles = {
     content: {
@@ -53,35 +65,60 @@ Modal.setAppElement("body");
 
 const Dashboard: React.FC = () => {
     // const [eventos, setEventos] = useState<evento[]>([]);
+    const [funcIDs, setFuncIDs] = useState<funcio[]>([]);
+    const [razaoIDs, setRazaoIDs] = useState<razao[]>([]);
+    const [tipoIDs, setTipoIDs] = useState<tipo[]>([]);
+    const [exames, setExames] = useState<exams[]>([]);
+    const [dataExame, setDataExame] = useState("");
+    const [venciExame, setVenciExame] = useState("");
+    const [funcid, setFuncid] = useState("");
+    const [razaoid, setRazaoid] = useState("");
+    const [tipoid, setTipoid] = useState("");
 
     const history = useHistory();
-    // const userJWT = localStorage.getItem("userJWT");
+    const userJWT = localStorage.getItem("userJWT");
 
-    // useEffect(() => {
-    //     async function loadData(): Promise<void> {
-    //         const userJWT = await localStorage.getItem("userJWT");
-    //         const response = await api.get("/eventos", {
-    //             headers: {
-    //                 Authorization: `Bearer ${userJWT}`,
-    //             },
-    //         });
-    //         setEventos(response.data);
-    //     }
-    //     loadData();
-    // }, []);
+    useEffect(() => {
+        async function loadData(): Promise<void> {
+            const userJWT = await localStorage.getItem("userJWT");
+            const response = await api.get("/funcionarios", {
+                headers: {
+                    Authorization: `Bearer ${userJWT}`,
+                },
+            });
+            setFuncIDs(response.data);
 
-    // useEffect(() => {
-    //     async function loadData(): Promise<void> {
-    //         const userJWT = await localStorage.getItem("userJWT");
-    //         const response = await api.get("/eventos", {
-    //             headers: {
-    //                 Authorization: `Bearer ${userJWT}`,
-    //             },
-    //         });
-    //         setEventos(response.data);
-    //     }
-    //     loadData();
-    // }, [eventos]);
+            const respons = await api.get("/razaoexame", {
+                headers: {
+                    Authorization: `Bearer ${userJWT}`,
+                },
+            });
+            setRazaoIDs(respons.data);
+
+            const respon = await api.get("/tipoexame", {
+                headers: {
+                    Authorization: `Bearer ${userJWT}`,
+                },
+            });
+            setTipoIDs(respon.data);
+        }
+        loadData();
+    }, []);
+
+    useEffect(() => {
+        async function loadData(): Promise<void> {
+            const userJWT = await localStorage.getItem("userJWT");
+            const response = await api.get("/exame/", {
+                headers: {
+                    Authorization: `Bearer ${userJWT}`,
+                },
+            });
+            if (response.data) {
+                setExames(response.data);
+            }
+        }
+        loadData();
+    }, []);
 
     var subtitle: any;
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -98,94 +135,69 @@ const Dashboard: React.FC = () => {
         setIsOpen(false);
     }
 
-    // async function handleDeleteEvent(id: string, criador: any) {
-    //     try {
-    //         const user = localStorage.getItem("IdUser");
-    //         console.log("user", user);
-    //         console.log(criador);
-    //         if (user == criador) {
-    //             // const config = {
-    //             //     data: {
-    //             //         usuario_logged: criador,
-    //             //     },
-    //             // };
+    async function handleExame(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const data = {
+            funcionario_id: funcid,
+            razaoExame_id: razaoid,
+            tipoExame_id: tipoid,
+            data: dataExame,
+            vencimento: venciExame,
+        };
+        try {
+            console.log(data);
+            // if (
+            //     !data.funcionario_id ||
+            // ) {
+            //     swal("Ops!", "Algo deu errado!", "error");
+            //     return;
+            // }
+            const respon = await api.post(`/exame`, data, {
+                headers: {
+                    Authorization: `Bearer ${userJWT}`,
+                },
+            });
+            console.log(respon);
+            swal(
+                "Exame Registrado",
+                "Exame cadastrado com sucesso!",
+                "success"
+            );
+            history.push("/exames");
+        } catch (err) {
+            console.log(err);
+            swal("Ops!", "Algo deu errado!", "error");
+        }
+    }
 
-    //             const config = {
-    //                 headers: {
-    //                     "Content-Type": "application/json",
-    //                     Authorization: `Bearer ${userJWT}`,
-    //                 },
-    //             };
+    function handleFuncio(valor: string) {
+        setFuncid(valor);
+    }
 
-    //             const usuario_logged = criador;
-    //             console.log(config);
-    //             const respoon = await api.delete(`/eventos/${id}`, config);
-    //             setEventos(eventos.filter((even) => even.id !== id));
-    //         }
+    function handleRaz(valor: string) {
+        setRazaoid(valor);
+    }
 
-    //         if (user != criador) {
-    //             swal(
-    //                 "Ops!",
-    //                 "Only the creator of the event can delete it",
-    //                 "error"
-    //             );
-    //         }
-    //     } catch (err) {
-    //         alert("Erro ao deletar o evento");
-    //         console.log(err);
-    //     }
-    // }
+    function handleTips(valor: string) {
+        setTipoid(valor);
+    }
 
-    // async function handleLike(evento: string) {
-    //     // e.preventDefault();
+    async function handleDeleteExam(id_func: string) {
+        try {
+            await api.delete(`/exame/${id_func}`, {
+                headers: {
+                    Authorization: `Bearer ${userJWT}`,
+                },
+            });
+            reloadp();
+        } catch (error) {
+            console.log(error);
+            swal("Ops!", "Algo deu errado!", "error");
+        }
+    }
 
-    //     const evento_id = evento;
-    //     const usuario_id = localStorage.getItem("IdUser");
-
-    //     const data = {
-    //         evento_id,
-    //         usuario_id,
-    //     };
-
-    //     try {
-    //         console.log(data);
-    //         const respon = await api.post("/likes", data, {
-    //             headers: {
-    //                 Authorization: `Bearer ${userJWT}`,
-    //             },
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //         swal("Ops!", "Something went wrong", "error");
-    //     }
-    // }
-
-    // async function handleDislike(evento: string) {
-    //     // e.preventDefault();
-
-    //     const evento_id = evento;
-    //     const usuario_id = localStorage.getItem("IdUser");
-
-    //     const data = {
-    //         evento_id,
-    //         usuario_id,
-    //     };
-
-    //     try {
-    //         console.log(data);
-    //         const respon = await api.post("/dislikes", data, {
-    //             headers: {
-    //                 Authorization: `Bearer ${userJWT}`,
-    //             },
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //         swal("Ops!", "Something went wrong", "error");
-    //     }
-    // }
-
-    function handleEditInfo() {
-        alert("Foi");
+    function reloadp() {
+        window.location.reload(false);
     }
 
     function handleLogout() {
@@ -232,31 +244,90 @@ const Dashboard: React.FC = () => {
                     contentLabel="Example Modal"
                     className="modal-container"
                 >
-                    <form className="modal" onSubmit={handleEditInfo}>
-                        <h2>CONTA</h2>
-                        <p>Edite agora suas informações</p>
+                    <form className="modal" onSubmit={handleExame}>
+                        <h2>Novo Exame</h2>
+                        <p>Adicione agora um novo exame</p>
                         <div className="row-modal">
                             <div className="modal-group">
-                                <label htmlFor="name">Name</label>
-                                <input type="text" />
+                                <label htmlFor="funcionarios">
+                                    Funcionarios
+                                </label>
+                                <select
+                                    name="funcionarios"
+                                    onChange={(e) =>
+                                        handleFuncio(e.target.value)
+                                    }
+                                >
+                                    {funcIDs.map((funci) => (
+                                        <option value={funci.id}>
+                                            {funci.nome}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="modal-group">
-                                <label htmlFor="name">CPF</label>
-                                <input type="text" />
+                                <label htmlFor="razoes">Razão do Exame</label>
+                                <select
+                                    name="razoes"
+                                    onChange={(e) => handleRaz(e.target.value)}
+                                >
+                                    {razaoIDs.map((raz) => (
+                                        <option value={raz.id}>
+                                            {raz.razao}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                         </div>
                         <div className="row-modal">
                             <div className="modal-group">
-                                <label htmlFor="name">Data</label>
-                                <input type="text" />
+                                <label htmlFor="tipos">Tipo do Exame</label>
+                                <select
+                                    name="tipos"
+                                    onChange={(e) => handleTips(e.target.value)}
+                                >
+                                    {tipoIDs.map((tip) => (
+                                        <option value={tip.id}>
+                                            {tip.nome}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="modal-group">
-                                <label htmlFor="name">Email</label>
-                                <input type="text" />
+                                <label htmlFor="meeting-time">
+                                    Data do Exame
+                                </label>
+                                <input
+                                    type="datetime-local"
+                                    id="meeting-time"
+                                    name="meeting-time"
+                                    value={dataExame}
+                                    onChange={(e) =>
+                                        setDataExame(e.target.value)
+                                    }
+                                    min="2020-11-01T00:00"
+                                />
                             </div>
                         </div>
-                        <button type="submit" className="btn-main">
-                            Atualizar Informações
+                        <div className="row-modal">
+                            <div className="modal-group">
+                                <label htmlFor="vencimento">
+                                    Data de Vencimento
+                                </label>
+                                <input
+                                    type="datetime-local"
+                                    id="vencimento"
+                                    name="vencimento"
+                                    value={venciExame}
+                                    onChange={(e) =>
+                                        setVenciExame(e.target.value)
+                                    }
+                                    min="2020-11-01T00:00"
+                                />
+                            </div>
+                        </div>
+                        <button type="submit" className="btn-primary btn-modal">
+                            Cadastrar Exame
                         </button>
                         <button
                             onClick={closeModal}
@@ -266,67 +337,37 @@ const Dashboard: React.FC = () => {
                         </button>
                     </form>
                 </Modal>
-                {/* <div className="list-container">
-                    <div className="list-tit">
-                        <p>ID do Exame</p>
-                        <p>Nome do Funcionário</p>
-                        <p>Tipo do Exame</p>
-                        <p>Data do Exame</p>
-                        <p>Vencimento</p>
-                    </div>
-                    <div className="list-conteudo">
-                        <div className="list-item">
-                            <p>0001</p>
-                            <p>Vinicius</p>
-                            <p>Tipo Sanguineo</p>
-                            <p>11/05/2020</p>
-                            <p>11/12/2020</p>
-                        </div>
-                        <div className="list-item">
-                            <p>0001</p>
-                            <p>Vinicius</p>
-                            <p>Tipo Sanguineo</p>
-                            <p>11/05/2020</p>
-                            <p>11/12/2020</p>
-                        </div>
-                    </div>
-                </div> */}
+
                 <table className="tb-container">
                     <tr className="tb-tit">
                         <th>ID do Exame</th>
-                        <th>Nome do Funcionário</th>
-                        <th>Tipo do Exame</th>
+                        <th>ID do Funcionário</th>
+                        <th>ID da Razão</th>
+                        <th>ID do Tipo</th>
                         <th>Data do Exame</th>
-                        <th>Vencimento</th>
+                        <th>Vencimento do Exame</th>
+                        <th></th>
                     </tr>
-                    <tr className="tb-item tb-first">
-                        <td>0001</td>
-                        <td>Vinicius</td>
-                        <td>Sangue</td>
-                        <td>11/05/2020</td>
-                        <td>11/12/2020</td>
-                    </tr>
-                    <tr className="tb-item">
-                        <td>0001</td>
-                        <td>Vinicius</td>
-                        <td>Sangue</td>
-                        <td>11/05/2020</td>
-                        <td>11/12/2020</td>
-                    </tr>
-                    <tr className="tb-item">
-                        <td>0001</td>
-                        <td>Vinicius</td>
-                        <td>Sangue</td>
-                        <td>11/05/2020</td>
-                        <td>11/12/2020</td>
-                    </tr>
-                    <tr className="tb-item">
-                        <td>0001</td>
-                        <td>Vinicius</td>
-                        <td>Sangue</td>
-                        <td>11/05/2020</td>
-                        <td>11/12/2020</td>
-                    </tr>
+                    {exames.map((exa) => (
+                        <tr className="tb-item tb-first" key={exa.id}>
+                            <td>{exa.id}</td>
+                            <td>{exa.funcionario_id}</td>
+                            <td>{exa.razaoExame_id}</td>
+                            <td>{exa.tipoExame_id}</td>
+                            <td>{exa.data}</td>
+                            <td>{exa.vencimento}</td>
+                            <td className="btns-table">
+                                <Link to={"/funcionariosedit/" + exa.id}>
+                                    Edit
+                                </Link>
+                                <button
+                                    onClick={() => handleDeleteExam(exa.id)}
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
                 </table>
             </div>
         </div>
