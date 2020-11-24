@@ -9,6 +9,7 @@ import newevent from "./pages/newevent";
 import funcionarios from "./pages/funcionarios";
 import funcionariosEdit from "./pages/funcionariosEdit";
 import exames from "./pages/exames";
+import examesEdit from "./pages/examesEdit";
 import examesTipo from "./pages/examesTipo";
 import conta from "./pages/conta";
 
@@ -21,6 +22,7 @@ function Routes() {
             <Route path="/funcionarios" component={funcionarios} />
             <Route path="/funcionariosedit/:id" component={funcionariosEdit} />
             <Route path="/exames" component={exames} />
+            <Route path="/examesedit/:id" component={examesEdit} />
             <Route path="/examestipo" component={examesTipo} />
             <Route path="/conta" component={conta} />
             <Route path="/newevent" component={newevent} />

@@ -17,11 +17,12 @@ import swal from "sweetalert";
 Modal.setAppElement("body");
 
 const Dashboard: React.FC = () => {
-    const [nomeFunc, setNomeFunc] = useState("");
-    const [cpfFunc, setCpfFunc] = useState("");
-    const [funcaoFunc, setFuncaoFunc] = useState("");
-    const [telFunc, setTelFunc] = useState("");
-    const [emailFunc, setEmailFunc] = useState("");
+    const [idExame, setIdExame] = useState("");
+    const [funcionaId, setFuncionaID] = useState("");
+    const [razaoId, setRazaoID] = useState("");
+    const [tipoId, setTipoID] = useState("");
+    const [dataExam, setData] = useState("");
+    const [venci, setVenci] = useState("");
 
     const history = useHistory();
     const userJWT = localStorage.getItem("userJWT");
@@ -30,16 +31,17 @@ const Dashboard: React.FC = () => {
     useEffect(() => {
         async function loadData(): Promise<void> {
             const userJWT = await localStorage.getItem("userJWT");
-            const response = await api.get(`/funcionarios/${idParam}`, {
+            const response = await api.get(`/exame/${idParam}`, {
                 headers: {
                     Authorization: `Bearer ${userJWT}`,
                 },
             });
-            setNomeFunc(response.data.nome);
-            setCpfFunc(response.data.cpf);
-            setFuncaoFunc(response.data.funcao);
-            setTelFunc(response.data.telefone);
-            setEmailFunc(response.data.email);
+            setIdExame(response.data.id);
+            setFuncionaID(response.data.funcionario_id);
+            setRazaoID(response.data.razaoExame_id);
+            setTipoID(response.data.tipoExame_id);
+            setData(response.data.data);
+            setVenci(response.data.vencimento);
         }
         loadData();
     }, []);
@@ -63,26 +65,25 @@ const Dashboard: React.FC = () => {
     async function handleUpdateFunc(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const data = {
-            nome: nomeFunc,
-            cpf: cpfFunc,
-            funcao: funcaoFunc,
-            telefone: telFunc,
-            email: emailFunc,
-            avatar: "",
+            funcionario_id: funcionaId,
+            razaoExame_id: razaoId,
+            tipoExame_id: tipoId,
+            data: dataExam,
+            vencimento: venci,
         };
         try {
             console.log(data);
-            if (
-                !data.nome ||
-                !data.cpf ||
-                !data.funcao ||
-                !data.telefone ||
-                !data.email
-            ) {
-                swal("Ops!", "Algo deu errado!", "error");
-                return;
-            }
-            const respon = await api.put(`/funcionarios/${idParam}`, data, {
+            // if (
+            //     !data.nome ||
+            //     !data.cpf ||
+            //     !data.funcao ||
+            //     !data.telefone ||
+            //     !data.email
+            // ) {
+            //     swal("Ops!", "Algo deu errado!", "error");
+            //     return;
+            // }
+            const respon = await api.put(`/exame/${idParam}`, data, {
                 headers: {
                     Authorization: `Bearer ${userJWT}`,
                 },
@@ -90,33 +91,33 @@ const Dashboard: React.FC = () => {
             console.log(respon);
             swal(
                 "Atualização Realizada",
-                "Funcionário atualizado com sucesso!",
+                "Exame atualizado com sucesso!",
                 "success"
             );
-            history.push("/funcionarios");
+            history.push("/exames");
         } catch (err) {
             console.log(err);
             swal("Ops!", "Algo deu errado!", "error");
         }
     }
 
-    function reloadp() {
-        window.location.reload(false);
-    }
+    // function reloadp() {
+    //     window.location.reload(false);
+    // }
 
-    async function handleDeleteFunc(id_func: string) {
-        try {
-            await api.delete(`/funcionarios/${id_func}`, {
-                headers: {
-                    Authorization: `Bearer ${userJWT}`,
-                },
-            });
-            reloadp();
-        } catch (error) {
-            console.log(error);
-            swal("Ops!", "Algo deu errado!", "error");
-        }
-    }
+    // async function handleDeleteExam(id_func: string) {
+    //     try {
+    //         await api.delete(`/exame/${id_func}`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${userJWT}`,
+    //             },
+    //         });
+    //         reloadp();
+    //     } catch (error) {
+    //         console.log(error);
+    //         swal("Ops!", "Algo deu errado!", "error");
+    //     }
+    // }
 
     function handleLogout() {
         localStorage.clear();
@@ -148,45 +149,45 @@ const Dashboard: React.FC = () => {
             <div className="main-section">
                 <header className="header">
                     <div className="group-title">
-                        <h2>Funcionários</h2>
-                        <p>Edite agora o funcionário selecionado</p>
+                        <h2>Exames</h2>
+                        <p>Edite agora o exame selecionado</p>
                     </div>
                 </header>
 
                 <form className="body-funcedit" onSubmit={handleUpdateFunc}>
                     <div className="row-modal">
                         <div className="modal-group">
-                            <label htmlFor="name">Nome</label>
+                            <label htmlFor="name">Funcionario</label>
                             <input
                                 type="text"
-                                value={nomeFunc}
-                                onChange={(e) => setNomeFunc(e.target.value)}
+                                value={funcionaId}
+                                onChange={(e) => setFuncionaID(e.target.value)}
                             />
                         </div>
                         <div className="modal-group">
-                            <label htmlFor="name">CPF</label>
+                            <label htmlFor="name">Razão</label>
                             <input
                                 type="text"
-                                value={cpfFunc}
-                                onChange={(e) => setCpfFunc(e.target.value)}
+                                value={razaoId}
+                                onChange={(e) => setRazaoID(e.target.value)}
                             />
                         </div>
                     </div>
                     <div className="row-modal">
                         <div className="modal-group">
-                            <label htmlFor="name">Função</label>
+                            <label htmlFor="name">Tipo</label>
                             <input
                                 type="text"
-                                value={funcaoFunc}
-                                onChange={(e) => setFuncaoFunc(e.target.value)}
+                                value={tipoId}
+                                onChange={(e) => setTipoID(e.target.value)}
                             />
                         </div>
                         <div className="modal-group">
-                            <label htmlFor="name">Telefone</label>
+                            <label htmlFor="name">Data</label>
                             <input
                                 type="text"
-                                value={telFunc}
-                                onChange={(e) => setTelFunc(e.target.value)}
+                                value={dataExam}
+                                onChange={(e) => setData(e.target.value)}
                             />
                         </div>
                     </div>
@@ -195,13 +196,13 @@ const Dashboard: React.FC = () => {
                             <label htmlFor="name">Email</label>
                             <input
                                 type="text"
-                                value={emailFunc}
-                                onChange={(e) => setEmailFunc(e.target.value)}
+                                value={venci}
+                                onChange={(e) => setVenci(e.target.value)}
                             />
                         </div>
                     </div>
                     <button type="submit" className="btn-primary btn-modal">
-                        Atualizar Funcionário
+                        Atualizar Exame
                     </button>
                     <Link to="/funcionarios" className="btn-voltar">
                         <FiArrowLeft></FiArrowLeft>Voltar

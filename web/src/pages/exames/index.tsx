@@ -362,9 +362,7 @@ const Dashboard: React.FC = () => {
                             <td>{exa.data}</td>
                             <td>{exa.vencimento}</td>
                             <td className="btns-table">
-                                <Link to={"/funcionariosedit/" + exa.id}>
-                                    Edit
-                                </Link>
+                                <Link to={"/examesedit/" + exa.id}>Edit</Link>
                                 <button
                                     onClick={() => handleDeleteExam(exa.id)}
                                 >
