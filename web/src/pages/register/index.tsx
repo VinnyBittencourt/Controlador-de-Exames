@@ -45,7 +45,7 @@ const Register: React.FC = () => {
                 "Aproveite agora todos os recursos da plataforma!",
                 "success"
             );
-            history.push("/dashboard");
+            history.push("/");
         } catch (err) {
             console.log(err);
             swal("Ops!", "Algo deu errado!", "error");
